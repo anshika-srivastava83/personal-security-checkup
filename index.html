@@ -6,14 +6,14 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #0d1117;
+      background: #1d242e;
       color: #e6edf3;
       display: flex;
       justify-content: center;
-      padding-top: 60px;
+      padding-top: 50px;
     }
     .card {
-      background: #161b22;
+      background: #28323b;
       padding: 30px;
       border-radius: 10px;
       width: 400px;
@@ -24,7 +24,7 @@
       font-size: 16px;
       border-radius: 6px;
       border: 1px solid #30363d;
-      background: #0d1117;
+      background: #121821;
       color: white;
       box-sizing: border-box;
     }
@@ -60,7 +60,12 @@
       if(password.length===0){
         bar.style.width = "0%";
         text.textContent = "";
-      }else{
+      }else if (isCommonPassword(password)){
+        bar.style.width = "100%";
+        bar.style.background = "red";
+        text.textContent = "Very weak - Common Password!";
+      }
+      else{
       const score = checkStrength(password);
       updateDisplay(score);
     }});
@@ -78,6 +83,16 @@
        if (!/(.)\1\1/.test(password)) score++;
       }
       return score;
+    }
+
+    const commonPasswords = [
+      "password", "password123", "123456", "123456789", "qwerty",
+      "abc123", "letmein", "monkey", "111111", "iloveyou", "000000",
+      "admin", "welcome", "qwerty123", "password1", "12345678"
+    ];
+
+    function isCommonPassword(password) {
+      return commonPasswords.includes(password.toLowerCase());
     }
 
     function updateDisplay(score) {
