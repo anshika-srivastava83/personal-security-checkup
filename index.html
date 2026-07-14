@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Personal Security Checkup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      display: flex;
+      justify-content: center;
+      padding-top: 60px;
+    }
+    .card {
+      background: #161b22;
+      padding: 30px;
+      border-radius: 10px;
+      width: 400px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #0d1117;
+      color: white;
+      box-sizing: border-box;
+    }
+    #strengthBar {
+      height: 5px;
+      border-radius: 10px;
+      margin-top: 10px;
+      transition: 0.3s;
+      width: 0%;
+    }
+    #strengthText {
+      margin-top: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>🛡️ Password Strength Checker</h2>
+    <input type="text" id="passwordInput" placeholder="Type a password..." maxlength = "64">
+    <div id="strengthBar"></div>
+    <div id="strengthText"></div>
+  </div>
+
+  <script>
+    const input = document.getElementById("passwordInput");
+    const bar = document.getElementById("strengthBar");
+    const text = document.getElementById("strengthText");
+
+    input.addEventListener("input", () => {
+      const password = input.value;
+      if(password.length===0){
+        bar.style.width = "0%";
+        text.textContent = "";
+      }else{
+      const score = checkStrength(password);
+      updateDisplay(score);
+    }});
+
+    function checkStrength(password) {
+      let score = 0;
+      if (password.length < 4) score = 0;
+      else{
+       if (password.length >= 8) score++;
+       if (password.length >= 12) score++;
+       if (/[a-z]/.test(password)) score++;
+       if (/[A-Z]/.test(password)) score++;
+       if (/[0-9]/.test(password)) score++;
+       if (/[^A-Za-z0-9]/.test(password)) score++;
+       if (!/(.)\1\1/.test(password)) score++;
+      }
+      return score;
+    }
+
+    function updateDisplay(score) {
+      const percent = (score / 7) * 100;
+      bar.style.width = percent + "%";
+
+      if (score <= 2) {
+        bar.style.background = "red";
+        text.textContent = "Weak";
+      } else if (score <= 4) {
+        bar.style.background = "orange";
+        text.textContent = "Moderate";
+      } else {
+        bar.style.background = "limegreen";
+        text.textContent = "Strong";
+      }
+    }
+  </script>
+
+</body>
+</html>
