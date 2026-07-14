@@ -48,7 +48,7 @@ To avoid ever sending your actual password (or even its full hash) over the inte
 3. HIBP returns all leaked hashes sharing that same 5-character prefix
 4. The full comparison happens locally in the browser — HIBP never sees your real password or full hash
 
-*(This section will be expanded with more detail once Phase 2 is finished.)*
+
 
 ---
 
