@@ -43,12 +43,28 @@ Checks whether a typed password has appeared in known public data breaches, usin
 
 **Key technique: k-anonymity**
 To avoid ever sending your actual password (or even its full hash) over the internet:
-1. The password is hashed locally using SHA-1
+1. The password is hashed locally using SHA-1 (via the browser's built-in Web Crypto API)
 2. Only the first 5 characters of that hash are sent to HIBP
-3. HIBP returns all leaked hashes sharing that same 5-character prefix
+3. HIBP returns all leaked hashes sharing that same 5-character prefix (often hundreds of results)
 4. The full comparison happens locally in the browser — HIBP never sees your real password or full hash
 
+**Why SHA-1 despite being cryptographically broken elsewhere:** SHA-1 is no longer considered secure for things like digital signatures, since collisions can be deliberately engineered. However, HIBP's entire breach database is built using SHA-1 fingerprints, so it's used here purely as a fixed-format lookup key, not as a security guarantee — a fitting use case despite its known weaknesses elsewhere.
 
+**UI features:**
+- "Check for Breaches" button appears (with a subtle pulse animation) once a password is typed
+- Clicking it shows a styled in-page message: red for breached (with exact breach count), green for not found
+- Result message clears automatically if the password field is emptied
+
+**Tech used:** `fetch` API for network requests, `async/await` for handling asynchronous operations, Web Crypto API for hashing.
+
+---
+
+## Project Structure
+
+As the project grew, it was split from a single `index.html` into three files for maintainability:
+- `index.html` — page structure only
+- `style.css` — all styling
+- `script.js` — all logic
 
 ---
 
