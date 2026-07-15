@@ -29,7 +29,7 @@ input.addEventListener("input", () => {
     bar.style.width = "0%";
     text.textContent = "";
     document.getElementById("breachResult").className = "";
-    document.getElementById("breachResult").style.display = "none";
+    document.getElementById("breachResult").style.display = "";
   } else if (isCommonPassword(password)) {
     bar.style.width = "100%";
     bar.style.background = "red";
