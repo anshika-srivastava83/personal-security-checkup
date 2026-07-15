@@ -1,0 +1,119 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #1d242e;
+  color: #e6edf3;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.card {
+  background: #28323b;
+  padding: 30px;
+  border-radius: 10px;
+  width: 400px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  background: #121821;
+  color: white;
+  box-sizing: border-box;
+  padding-right: 35px;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+#toggleVisibility {
+  display: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+}
+
+#toggleVisibility svg {
+  color: #8b949e;
+}
+
+#toggleVisibility:hover svg {
+  color: #e6edf3;
+}
+
+#strengthBar {
+  height: 5px;
+  border-radius: 10px;
+  margin-top: 10px;
+  transition: 0.3s;
+  width: 0%;
+}
+
+#strengthText {
+  font-weight: bold;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+}
+
+#breachButton {
+  margin-top: 0;
+  padding: 6px 12px;
+  background: #1f6feb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  animation: pulse 2.2s infinite;
+}
+
+#breachButton:hover {
+  background: #388bfd;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(31, 111, 235, 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(31, 111, 235, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(31, 111, 235, 0);
+  }
+}
+
+#breachResult {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  display: none;
+}
+
+#breachResult.breached {
+  background: rgba(248, 81, 73, 0.15);
+  color: #ff7b72;
+  border: 1px solid #f85149;
+  display: block;
+}
+
+#breachResult.safe {
+  background: rgba(46, 160, 67, 0.15);
+  color: #56d364;
+  border: 1px solid #2ea043;
+  display: block;
+}

@@ -1,0 +1,123 @@
+const input = document.getElementById("passwordInput");
+const bar = document.getElementById("strengthBar");
+const text = document.getElementById("strengthText");
+const toggle = document.getElementById("toggleVisibility");
+const eyeIcon = document.getElementById("eyeIcon");
+
+toggle.addEventListener("click", () => {
+  if (input.type === "password") {
+    input.type = "text";
+    eyeIcon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
+  } else {
+    input.type = "password";
+    eyeIcon.innerHTML = `<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>`;
+  }
+});
+
+input.addEventListener("input", () => {
+  const password = input.value;
+
+  if (input.type === "text") {
+    input.type = "password";
+    eyeIcon.innerHTML = `<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>`;
+  }
+
+  document.getElementById("breachButton").style.display = password.length === 0 ? "none" : "inline-block";
+
+  toggle.style.display = password.length === 0 ? "none" : "block";
+  if (password.length === 0) {
+    bar.style.width = "0%";
+    text.textContent = "";
+    document.getElementById("breachResult").className = "";
+    document.getElementById("breachResult").style.display = "none";
+  } else if (isCommonPassword(password)) {
+    bar.style.width = "100%";
+    bar.style.background = "red";
+    text.textContent = "Very weak - Common Password!";
+  } else {
+    const score = checkStrength(password);
+    updateDisplay(score);
+  }
+});
+
+function checkStrength(password) {
+  let score = 0;
+  if (password.length < 4) score = 0;
+  else {
+    if (password.length >= 8) score++;
+    if (password.length >= 12) score++;
+    if (/[a-z]/.test(password)) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+    if (!/(.)\1\1/.test(password)) score++;
+  }
+  return score;
+}
+
+const commonPasswords = [
+  "password", "password123", "123456", "123456789", "qwerty",
+  "abc123", "letmein", "monkey", "111111", "iloveyou", "000000",
+  "admin", "welcome", "qwerty123", "password1", "12345678"
+];
+
+function isCommonPassword(password) {
+  return commonPasswords.includes(password.toLowerCase());
+}
+
+function updateDisplay(score) {
+  const percent = (score / 7) * 100;
+  bar.style.width = percent + "%";
+
+  if (score <= 2) {
+    bar.style.background = "red";
+    text.textContent = "Weak";
+  } else if (score <= 4) {
+    bar.style.background = "orange";
+    text.textContent = "Moderate";
+  } else {
+    bar.style.background = "limegreen";
+    text.textContent = "Strong";
+  }
+}
+
+async function sha1Hash(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-1", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+  return hashHex.toUpperCase();
+}
+
+async function checkBreach(password) {
+  const hash = await sha1Hash(password);
+  const prefix = hash.slice(0, 5);
+  const suffix = hash.slice(5);
+
+  const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
+  const text = await response.text();
+
+  const lines = text.split("\n");
+  for (const line of lines) {
+    const [hashSuffix, count] = line.split(":");
+    if (hashSuffix === suffix) {
+      return parseInt(count);
+    }
+  }
+  return 0;
+}
+
+document.getElementById("breachButton").addEventListener("click", async () => {
+  const password = input.value;
+  const count = await checkBreach(password);
+  const resultBox = document.getElementById("breachResult");
+
+  if (count > 0) {
+    resultBox.className = "breached";
+    resultBox.textContent = `⚠ This password has appeared in ${count.toLocaleString()} known data breaches.`;
+  } else {
+    resultBox.className = "safe";
+    resultBox.textContent = "✓ Good news — this password was not found in any known breaches.";
+  }
+});
