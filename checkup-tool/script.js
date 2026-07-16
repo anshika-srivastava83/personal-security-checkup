@@ -97,62 +97,70 @@ function updateDisplay(score) {
   }
 }
 
-function generateReport() {
-  const reportBox = document.getElementById("reportCard");
+// function generateReport() {                                 //generated report in grade format and that too on the same page 
+//   const reportBox = document.getElementById("reportCard");
 
-  if (currentPasswordScore === null) {
-    reportBox.innerHTML = `<div class="grade-note">Enter a password above before generating a report.</div>`;
-    return;
-  }
+//   if (currentPasswordScore === null) {
+//     reportBox.innerHTML = `<div class="grade-note">Enter a password above before generating a report.</div>`;
+//     return;
+//   }
 
-  let totalPoints = currentPasswordScore;
-  let maxPoints = 7;
+//   let totalPoints = currentPasswordScore;
+//   let maxPoints = 7;
 
-  if (currentBreachCount !== null) {
-    maxPoints += 3;
-    if (currentBreachCount === 0) {
-      totalPoints += 3;
-    }
-  }
+//   if (currentBreachCount !== null) {
+//     maxPoints += 3;
+//     if (currentBreachCount === 0) {
+//       totalPoints += 3;
+//     }
+//   }
 
-  const percent = (totalPoints / maxPoints) * 100;
+//   const percent = (totalPoints / maxPoints) * 100;
 
-  let grade;
-  let color;
-  if (percent >= 90) { grade = "A+"; color = "#56d364"; }
-  else if (percent >= 80) { grade = "A"; color = "#56d364"; }
-  else if (percent >= 70) { grade = "B"; color = "#e3b341"; }
-  else if (percent >= 55) { grade = "C"; color = "#e3b341"; }
-  else if (percent >= 40) { grade = "D"; color = "#ff7b72"; }
-  else { grade = "F"; color = "#ff7b72"; }
+//   let grade;
+//   let color;
+//   if (percent >= 90) { grade = "A+"; color = "#56d364"; }
+//   else if (percent >= 80) { grade = "A"; color = "#56d364"; }
+//   else if (percent >= 70) { grade = "B"; color = "#e3b341"; }
+//   else if (percent >= 55) { grade = "C"; color = "#e3b341"; }
+//   else if (percent >= 40) { grade = "D"; color = "#ff7b72"; }
+//   else { grade = "F"; color = "#ff7b72"; }
 
-  let summary = `Password strength: ${currentPasswordScore}/7`;
-  if (currentBreachCount !== null) {
-    summary += currentBreachCount > 0
-      ? ` — Breached (${currentBreachCount.toLocaleString()} times)`
-      : ` — Not found in known breaches`;
-  } else {
-    summary += ` — Breach status not checked`;
-  }
+//   let summary = `Password strength: ${currentPasswordScore}/7`;
+//   if (currentBreachCount !== null) {
+//     summary += currentBreachCount > 0
+//       ? ` — Breached (${currentBreachCount.toLocaleString()} times)`
+//       : ` — Not found in known breaches`;
+//   } else {
+//     summary += ` — Breach status not checked`;
+//   }
 
-  let note = currentBreachCount === null
-    ? "Click \"Check for Breaches\" for a more complete score."
-    : "";
+//   let note = currentBreachCount === null
+//     ? "Click \"Check for Breaches\" for a more complete score."
+//     : "";
 
-  if (!footprintScanned) {
-    note += (note ? " " : "") + "Digital footprint not scanned — run a scan above to check your exposure separately.";
-  }
+//   if (!footprintScanned) {
+//     note += (note ? " " : "") + "Digital footprint not scanned — run a scan above to check your exposure separately.";
+//   }
 
-  reportBox.innerHTML = `
-    <div class="grade-box">
-      <div class="grade-letter" style="color:${color};">${grade}</div>
-      <div class="grade-summary">${summary}</div>
-      ${note ? `<div class="grade-note">${note}</div>` : ""}
-    </div>
-  `;
-}
+//   reportBox.innerHTML = `
+//     <div class="grade-box">
+//       <div class="grade-letter" style="color:${color};">${grade}</div>
+//       <div class="grade-summary">${summary}</div>
+//       ${note ? `<div class="grade-note">${note}</div>` : ""}
+//     </div>
+//   `;
+// }
 
-document.getElementById("reportButton").addEventListener("click", generateReport);
+document.getElementById("reportButton").addEventListener("click", () => {
+  const reportData = {
+    passwordScore: currentPasswordScore,
+    breachCount: currentBreachCount,
+    footprintScanned: footprintScanned
+  };
+  localStorage.setItem("securityReportData", JSON.stringify(reportData));
+  window.location.href = "report/report.html";
+});
 
 async function sha1Hash(password) {
   const encoder = new TextEncoder();
