@@ -124,6 +124,20 @@ async function checkGitHub(username) {
   }
 }
 
+const manualCheckPlatforms = [
+  { name: "Instagram", url: "https://instagram.com/" },
+  { name: "Twitter / X", url: "https://x.com/" },
+  { name: "Reddit", url: "https://reddit.com/user/" },
+  { name: "LinkedIn", url: "https://linkedin.com/in/" }
+];
+
+function createManualCheckRow(platform, username) {
+  const row = document.createElement("div");
+  row.className = "platform-row";
+  row.innerHTML = `<span>${platform.name}</span><a href="${platform.url}${username}" target="_blank" style="color:#58a6ff;">Check manually →</a>`;
+  return row;
+}
+
 document.getElementById("breachButton").addEventListener("click", async () => {
   const password = input.value;
   const count = await checkBreach(password);
@@ -153,16 +167,21 @@ document.getElementById("scanButton").addEventListener("click", async () => {
 
   resultsBox.innerHTML = "";
 
-  const row = document.createElement("div");
-  row.className = "platform-row";
+  const githubRow = document.createElement("div");
+  githubRow.className = "platform-row";
 
   if (githubExists === true) {
-    row.innerHTML = `<span>GitHub</span><span style="color:#ff7b72;">Found</span>`;
+    githubRow.innerHTML = `<span>GitHub</span><span style="color:#ff7b72;">Found</span>`;
   } else if (githubExists === false) {
-    row.innerHTML = `<span>GitHub</span><span style="color:#56d364;">Not found</span>`;
+    githubRow.innerHTML = `<span>GitHub</span><span style="color:#56d364;">No exact match found</span>`;
   } else {
-    row.innerHTML = `<span>GitHub</span><span style="color:#8b949e;">Couldn't check</span>`;
+    githubRow.innerHTML = `<span>GitHub</span><span style="color:#8b949e;">Couldn't check</span>`;
   }
 
-  resultsBox.appendChild(row);
+  resultsBox.appendChild(githubRow);
+
+  manualCheckPlatforms.forEach(platform => {
+    const row = createManualCheckRow(platform, username);
+    resultsBox.appendChild(row);
+  });
 });
