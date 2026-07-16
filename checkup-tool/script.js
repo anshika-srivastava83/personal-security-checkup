@@ -4,6 +4,10 @@ const text = document.getElementById("strengthText");
 const toggle = document.getElementById("toggleVisibility");
 const eyeIcon = document.getElementById("eyeIcon");
 
+let currentPasswordScore = null;     //we use let so the variables can change 
+let currentBreachCount = null;
+let footprintScanned = false;
+
 toggle.addEventListener("click", () => {
   if (input.type === "password") {
     input.type = "text";
@@ -28,6 +32,7 @@ input.addEventListener("input", () => {
   if (password.length === 0) {
     bar.style.width = "0%";
     text.textContent = "";
+    currentPasswordScore = null;
     document.getElementById("breachResult").className = "";
     document.getElementById("breachResult").style.display = "";
   } else if (isCommonPassword(password)) {
@@ -36,6 +41,7 @@ input.addEventListener("input", () => {
     text.textContent = "Very weak - Common Password!";
   } else {
     const score = checkStrength(password);
+    currentPasswordScore = score;
     updateDisplay(score);
   }
 });
@@ -87,6 +93,63 @@ function updateDisplay(score) {
     text.textContent = "Strong";
   }
 }
+
+function generateReport() {
+  const reportBox = document.getElementById("reportCard");
+
+  if (currentPasswordScore === null) {
+    reportBox.innerHTML = `<div class="grade-note">Enter a password above before generating a report.</div>`;
+    return;
+  }
+
+  let totalPoints = currentPasswordScore;
+  let maxPoints = 7;
+
+  if (currentBreachCount !== null) {
+    maxPoints += 3;
+    if (currentBreachCount === 0) {
+      totalPoints += 3;
+    }
+  }
+
+  const percent = (totalPoints / maxPoints) * 100;
+
+  let grade;
+  let color;
+  if (percent >= 90) { grade = "A+"; color = "#56d364"; }
+  else if (percent >= 80) { grade = "A"; color = "#56d364"; }
+  else if (percent >= 70) { grade = "B"; color = "#e3b341"; }
+  else if (percent >= 55) { grade = "C"; color = "#e3b341"; }
+  else if (percent >= 40) { grade = "D"; color = "#ff7b72"; }
+  else { grade = "F"; color = "#ff7b72"; }
+
+  let summary = `Password strength: ${currentPasswordScore}/7`;
+  if (currentBreachCount !== null) {
+    summary += currentBreachCount > 0
+      ? ` — Breached (${currentBreachCount.toLocaleString()} times)`
+      : ` — Not found in known breaches`;
+  } else {
+    summary += ` — Breach status not checked`;
+  }
+
+  let note = currentBreachCount === null
+    ? "Click \"Check for Breaches\" for a more complete score."
+    : "";
+
+  if (!footprintScanned) {
+    note += (note ? " " : "") + "Digital footprint not scanned — run a scan above to check your exposure separately.";
+  }
+
+  reportBox.innerHTML = `
+    <div class="grade-box">
+      <div class="grade-letter" style="color:${color};">${grade}</div>
+      <div class="grade-summary">${summary}</div>
+      ${note ? `<div class="grade-note">${note}</div>` : ""}
+    </div>
+  `;
+}
+
+document.getElementById("reportButton").addEventListener("click", generateReport);
 
 async function sha1Hash(password) {
   const encoder = new TextEncoder();
@@ -141,6 +204,7 @@ function createManualCheckRow(platform, username) {
 document.getElementById("breachButton").addEventListener("click", async () => {
   const password = input.value;
   const count = await checkBreach(password);
+  currentBreachCount = count;
   const resultBox = document.getElementById("breachResult");
 
   if (count > 0) {
@@ -160,7 +224,7 @@ document.getElementById("scanButton").addEventListener("click", async () => {
   if (username === "") {
     return;
   }
-
+  footprintScanned = true;
   resultsBox.innerHTML = '<div class="platform-row"><span>Checking...</span></div>';
 
   const githubExists = await checkGitHub(username);
