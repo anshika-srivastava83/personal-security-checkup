@@ -40,6 +40,13 @@ input.addEventListener("input", () => {
   }
 });
 
+document.getElementById("usernameInput").addEventListener("input", () => {
+  const username = document.getElementById("usernameInput").value.trim();
+  if (username === "") {
+    document.getElementById("footprintResults").innerHTML = "";
+  }
+});
+
 function checkStrength(password) {
   let score = 0;
   if (password.length < 4) score = 0;
@@ -108,6 +115,15 @@ async function checkBreach(password) {
   return 0;
 }
 
+async function checkGitHub(username) {
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}`);
+    return response.status === 200;
+  } catch (error) {
+    return null;
+  }
+}
+
 document.getElementById("breachButton").addEventListener("click", async () => {
   const password = input.value;
   const count = await checkBreach(password);
@@ -120,4 +136,33 @@ document.getElementById("breachButton").addEventListener("click", async () => {
     resultBox.className = "safe";
     resultBox.textContent = "✓ Good news — this password was not found in any known breaches.";
   }
+});
+
+document.getElementById("scanButton").addEventListener("click", async () => {
+  const username = document.getElementById("usernameInput").value.trim();
+  const resultsBox = document.getElementById("footprintResults");
+  resultsBox.innerHTML = "";
+
+  if (username === "") {
+    return;
+  }
+
+  resultsBox.innerHTML = '<div class="platform-row"><span>Checking...</span></div>';
+
+  const githubExists = await checkGitHub(username);
+
+  resultsBox.innerHTML = "";
+
+  const row = document.createElement("div");
+  row.className = "platform-row";
+
+  if (githubExists === true) {
+    row.innerHTML = `<span>GitHub</span><span style="color:#ff7b72;">Found</span>`;
+  } else if (githubExists === false) {
+    row.innerHTML = `<span>GitHub</span><span style="color:#56d364;">Not found</span>`;
+  } else {
+    row.innerHTML = `<span>GitHub</span><span style="color:#8b949e;">Couldn't check</span>`;
+  }
+
+  resultsBox.appendChild(row);
 });
