@@ -2,14 +2,9 @@ const savedData = localStorage.getItem("securityReportData");
 const reportData = savedData ? JSON.parse(savedData) : null;
 
 function buildTableRows(pros, cons) {
-    const maxRows = Math.max(pros.length, cons.length);
-    let rowsHtml = "";
-    for (let i = 0; i < maxRows; i++) {
-        const proText = pros[i] || "";
-        const conText = cons[i] || "";
-        rowsHtml += `<tr><td>${proText}</td><td>${conText}</td></tr>`;
-    }
-    return rowsHtml;
+    const prosList = pros.map(p => `<li>${p}</li>`).join("");
+    const consList = cons.map(c => `<li>${c}</li>`).join("");
+    return `<tr><td><ul class="cell-list">${prosList}</ul></td><td><ul class="cell-list">${consList}</ul></td></tr>`;
 }
 
 function buildFootprintSection() {

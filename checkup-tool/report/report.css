@@ -176,3 +176,12 @@ h1 {
 .pros-cons-table td:first-child {
   width: 50%;
 }
+
+.cell-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.cell-list li {
+  margin-bottom: 4px;
+}
