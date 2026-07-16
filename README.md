@@ -55,13 +55,30 @@ To avoid ever sending your actual password (or even its full hash) over the inte
 - Clicking it shows a styled in-page message: red for breached (with exact breach count), green for not found
 - Result message clears automatically if the password field is emptied
 
-**Tech used:** `fetch` API for network requests, `async/await` for handling asynchronous operations, Web Crypto API for hashing.
+---
+
+## Phase 3: Digital Footprint Scanner (Complete)
+
+Checks how discoverable a username is across the internet — a beginner introduction to OSINT (Open-Source Intelligence), the practice of gathering publicly available information, relevant here because attackers often research a target's usernames before an attack.
+
+**Two-part honest approach:**
+Most social platforms (Instagram, Twitter/X, LinkedIn, TikTok) block automated lookups via a browser security rule called CORS (Cross-Origin Resource Sharing) — they deliberately don't allow outside websites to query them directly. Rather than faking this or scraping unreliably, this project splits footprint checking into two categories:
+
+1. **Automatic check (GitHub only)** — GitHub provides a genuine public API (`api.github.com/users/{username}`) that explicitly allows browser-based queries. A live "Found" / "No exact match found" result is generated automatically by checking the HTTP status code returned (200 = exists, 404 = doesn't).
+2. **Manual-check links (Instagram, Twitter/X, Reddit, LinkedIn)** — since these platforms can't be queried automatically, clicking a "Check manually →" link opens that platform's profile URL for the given username in a new tab, so the user can visually verify themselves.
+
+**UI features:**
+- Scan button positioned inside the username input field
+- "Checking..." loading state shown while the GitHub request is in progress
+- Results clear automatically when the username field is emptied
+
+**Tech used:** `fetch` for the GitHub API call, HTTP status code checking, JavaScript arrays of objects + `.forEach()` looping to generate platform rows dynamically.
 
 ---
 
 ## Project Structure
 
-As the project grew, it was split from a single `index.html` into three files for maintainability:
+The project is split into three files for maintainability:
 - `index.html` — page structure only
 - `style.css` — all styling
 - `script.js` — all logic
