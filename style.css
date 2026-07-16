@@ -1,0 +1,106 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #10161f;
+  color: #e6edf3;
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+  margin: 0;
+}
+
+.landing-container {
+  max-width: 520px;
+  text-align: center;
+}
+
+h1 {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 900;
+  font-size: 32px;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.tagline {
+  color: #8b949e;
+  font-size: 15px;
+  margin-bottom: 40px;
+}
+
+.feature-list {
+  text-align: left;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.feature-item {
+  padding: 18px 20px;
+  border-radius: 10px;
+  border-left: 3px solid;
+}
+
+.feature-item.password {
+  background: rgba(121, 192, 255, 0.16);
+  border-left-color: #79c0ff;
+}
+
+.feature-item.password .feature-label {
+  color: #79c0ff;
+}
+
+.feature-item.breach {
+  background: rgba(88, 166, 255, 0.10);
+  border-left-color: #58a6ff;
+}
+
+.feature-item.breach .feature-label {
+  color: #58a6ff;
+}
+
+.feature-item.footprint {
+  background: rgba(31, 111, 235, 0.06);
+  border-left-color: #1f6feb;
+}
+
+.feature-item.footprint .feature-label {
+  color: #1f6feb;
+}
+
+.feature-label {
+  display: block;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.feature-desc {
+  display: block;
+  font-size: 14px;
+  color: #c9d1d9;
+  line-height: 1.5;
+}
+
+.start-button {
+  display: inline-block;
+  background: #1558b0;
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.start-button:hover {
+  background: #1a6fd6;
+}
+
+.built-with {
+  margin-top: 30px;
+  font-size: 12px;
+  color: #8b949e;
+}
