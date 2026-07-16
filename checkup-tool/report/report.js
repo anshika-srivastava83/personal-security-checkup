@@ -63,13 +63,24 @@ function buildPasswordSection() {
         },
         options: {
             indexAxis: "y",
+            maintainAspectRatio: false,
+            layout: {
+                padding: { right: 10, top: 10, bottom: 5 }
+            },
             scales: {
                 x: { min: 0, max: 100 }
             },
             plugins: {
-                legend: { display: false }
+                legend: { display: false },
+                datalabels: {
+                    color: "#ffffff",
+                    anchor: "end",
+                    align: "end",
+                    formatter: (value) => Math.round(value) + "%"
+                }
             }
-        }
+        },
+        plugins: [ChartDataLabels]
     });
 
     const pros = [];
