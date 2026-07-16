@@ -243,3 +243,9 @@ input {
   font-size: 13px;
   color: #8b949e;
 }
+
+.input-hint {
+  font-size: 12px;
+  color: #6e7681;
+  margin-top: 6px;
+}

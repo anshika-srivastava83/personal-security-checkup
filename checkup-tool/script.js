@@ -18,6 +18,19 @@ toggle.addEventListener("click", () => {
   }
 });
 
+input.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && input.value.length > 0) {
+    document.getElementById("breachButton").click();
+  }
+});
+
+document.getElementById("usernameInput").addEventListener("keydown", (event) => {
+  const username = document.getElementById("usernameInput").value.trim();
+  if (event.key === "Enter" && username.length > 0) {
+    document.getElementById("scanButton").click();
+  }
+});
+
 input.addEventListener("input", () => {
   const password = input.value;
 
@@ -51,7 +64,7 @@ document.getElementById("usernameInput").addEventListener("input", () => {
   const username = document.getElementById("usernameInput").value.trim();
   if (username === "") {
     document.getElementById("footprintResults").innerHTML = "";
-    footprintScanned = false; 
+    footprintScanned = false;
     document.getElementById("reportCard").innerHTML = "";
   }
 });
