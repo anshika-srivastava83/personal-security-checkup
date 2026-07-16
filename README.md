@@ -8,7 +8,7 @@ A beginner-built web app to check your personal security hygiene — password st
 - Phase 2: Breach Checker
 - Phase 3: Digital Footprint Scanner
 - Phase 4: Combined Security Report Card
-- Phase 5: Hosting (planned)
+- Phase 5: Hosting
 
 ---
 
@@ -53,7 +53,8 @@ Checks whether a typed password has appeared in known public data breaches, usin
 
 **UI features:**
 - "Check for Breaches" button appears (with a subtle pulse animation) once a password is typed
-- Clicking it (or pressing Enter) shows a styled in-page message: red for breached (with exact breach count), green for not found
+- Clicking it (or pressing Enter) morphs the button in place into a spinning loading indicator while the HIBP request is in flight, then hides itself once the result is ready — avoiding both a dead pause and any layout shift
+- Result shown as a styled in-page message: red for breached (with exact breach count), green for not found
 - Result message clears automatically if the password field is emptied
 
 ---
@@ -94,6 +95,19 @@ Clicking "Generate Report" from the checkup tool takes you to a separate report 
 
 ---
 
+## Phase 5: Hosting (Complete)
+
+The project is published and live using GitHub Pages, GitHub's free static-site hosting.
+
+**> Highlight: no server or backend needed.** Since this entire project is built with only HTML, CSS, and JavaScript that runs in the browser (no database, no server-side code), it can be hosted directly from the GitHub repository itself — GitHub Pages simply serves the existing files as a website. This keeps deployment simple: every `git push` to the `main` branch automatically triggers a rebuild of the live site within about a minute.
+
+**How it works:**
+1. GitHub Pages is enabled in the repository's Settings, pointed at the `main` branch and the root folder
+2. GitHub builds and serves the site at a public URL in the format `https://username.github.io/repo-name/`
+3. Any future update follows the same cycle already used throughout this project: edit files locally → `git add` → `git commit` → `git push` → live site updates automatically
+
+---
+
 ## Project Structure
  personal-security-checkup/
  ├── index.html              (landing page)
@@ -112,6 +126,7 @@ Clicking "Generate Report" from the checkup tool takes you to a separate report 
 ## Tools Used
 - VS Code — code editor
 - Git & GitHub — version control and hosting
+- GitHub Pages — free static-site hosting for the live version
 - Browser (Chrome/Edge) — runs the app directly, no server needed
 
 ## Notes on Branching
