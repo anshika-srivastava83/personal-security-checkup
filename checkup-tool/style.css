@@ -126,8 +126,29 @@ input {
   cursor: pointer;
 }
 
+/* fixed width + centered content so button doesn't shift when text swaps to spinner */
 #breachButton {
   animation: pulse 2.2s infinite;
+  min-width: 150px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #30363d;
+  border-top: 3px solid #58a6ff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 #breachButton:hover,

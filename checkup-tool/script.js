@@ -227,9 +227,24 @@ function createManualCheckRow(platform, username) {
 
 document.getElementById("breachButton").addEventListener("click", async () => {
   const password = input.value;
+  const breachButton = document.getElementById("breachButton");
+  const resultBox = document.getElementById("breachResult");
+  const originalText = breachButton.textContent;
+
+  // clear old result (className "" resets to CSS default: display none)
+  resultBox.className = "";
+
+  // swap button content to spinner, disable clicking
+  breachButton.disabled = true;
+  breachButton.innerHTML = '<span class="spinner"></span>';
+
   const count = await checkBreach(password);
   currentBreachCount = count;
-  const resultBox = document.getElementById("breachResult");
+
+  // fetch done — hide button entirely, restore its text for next time
+  breachButton.style.display = "none";
+  breachButton.disabled = false;
+  breachButton.innerHTML = originalText;
 
   if (count > 0) {
     resultBox.className = "breached";
