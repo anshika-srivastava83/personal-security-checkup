@@ -51,13 +51,26 @@ function buildPasswordSection() {
     if (percent > 70) barColor = "#56d364";
     else if (percent > 40) barColor = "#e3b341";
 
-    chartBox.innerHTML = `
-    <div class="bar-row">
-      <span class="bar-label">Strength score</span>
-      <div class="bar-track"><div class="bar-fill" style="width:${percent}%; background:${barColor};"></div></div>
-      <span>${Math.round(percent)}%</span>
-    </div>
-  `;
+    new Chart(document.getElementById("passwordChartCanvas"), {
+        type: "bar",
+        data: {
+            labels: ["Strength Score"],
+            datasets: [{
+                label: "Percent",
+                data: [percent],
+                backgroundColor: barColor
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            scales: {
+                x: { min: 0, max: 100 }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
 
     const pros = [];
     const cons = [];

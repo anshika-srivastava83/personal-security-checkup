@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Security Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="report.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 </head>
@@ -31,7 +32,9 @@
 
         <div class="report-section">
             <h2>Password Strength</h2>
-            <div id="passwordChart" class="chart-area"></div>
+            <div class="chart-area">
+                <canvas id="passwordChartCanvas" width="400" height="150"></canvas>
+            </div>
             <table class="pros-cons-table">
                 <thead>
                     <tr>
