@@ -110,3 +110,36 @@ h1 {
 .back-link:hover {
   text-decoration: underline;
 }
+
+.pros-cons-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+
+.pros-col, .cons-col {
+  flex: 1;
+}
+
+.col-label {
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.pros-col .col-label {
+  color: #56d364;
+}
+
+.cons-col .col-label {
+  color: #ff7b72;
+}
+
+.points-list {
+  padding-left: 18px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #c9d1d9;
+}
