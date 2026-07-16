@@ -35,6 +35,7 @@ input.addEventListener("input", () => {
     currentPasswordScore = null;
     document.getElementById("breachResult").className = "";
     document.getElementById("breachResult").style.display = "";
+    document.getElementById("reportCard").innerHTML = "";
   } else if (isCommonPassword(password)) {
     bar.style.width = "100%";
     bar.style.background = "red";
@@ -50,6 +51,8 @@ document.getElementById("usernameInput").addEventListener("input", () => {
   const username = document.getElementById("usernameInput").value.trim();
   if (username === "") {
     document.getElementById("footprintResults").innerHTML = "";
+    footprintScanned = false; 
+    document.getElementById("reportCard").innerHTML = "";
   }
 });
 
