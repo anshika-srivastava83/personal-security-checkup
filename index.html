@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Personal Security Checkup</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <div class="card">
-    <h2>🛡️ Password Strength Checker</h2>
-    <div class="input-wrapper">
-      <input type="password" id="passwordInput" placeholder="Type a password..." maxlength="64">
-      <span id="toggleVisibility">
-        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path
-            d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
-          </path>
-          <line x1="1" y1="1" x2="23" y2="23"></line>
-        </svg>
-      </span>
+  <div class="app-container">
+    <div class="main-card">
+      <div class="app-header">
+        <h1>Personal Security Checkup</h1>
+        <p class="app-subtitle">Check your password strength, breach exposure, and public footprint.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">DIGITAL FOOTPRINT</div>
+        <input type="text" id="usernameInput" placeholder="Enter a username...">
+        <button id="scanButton">Scan</button>
+        <div id="footprintResults"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">PASSWORD STRENGTH</div>
+        <div class="input-wrapper">
+          <input type="password" id="passwordInput" placeholder="Type a password..." maxlength="64">
+          <span id="toggleVisibility">
+            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+              </path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          </span>
+        </div>
+        <div id="strengthBar"></div>
+        <div class="status-row">
+          <div id="strengthText"></div>
+          <button id="breachButton" style="display:none;">Check for Breaches</button>
+        </div>
+        <div id="breachResult"></div>
+      </div>
     </div>
-    <div id="strengthBar"></div>
-    <div class="status-row">
-      <div id="strengthText"></div>
-      <button id="breachButton" style="display:none;">Check for Breaches</button>
-    </div>
-    <div id="breachResult"></div>
   </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>
